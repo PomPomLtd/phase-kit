@@ -1,0 +1,14 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "pompom",
+  "description": "Plugins by Pom Pom GmbH (Zurich).",
+  "owner": { "name": "Sam Beatty", "email": "hello@pom-pom.ch" },
+  "plugins": [
+    {
+      "name": "phase-kit",
+      "description": "Build software in phases from written specs, one session per phase, with a progress log, decisions and a handoff every time.",
+      "source": "./",
+      "category": "productivity"
+    }
+  ]
+}
