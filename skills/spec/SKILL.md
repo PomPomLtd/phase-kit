@@ -18,6 +18,9 @@ argument → list the specs that exist with their status and ask which one, or w
 new one. A spec that exists and is `draft` → the **confirmation** below. `confirmed` → a
 revision: changes are new decisions, and a change that invalidates built phases is said out loud.
 
+Too small for a spec? A request that fits in a sentence or two and that the full lane's list does not
+catch (conventions, "Two lanes") gets that said and `/quick` offered instead.
+
 ## Writing a new spec
 
 1. **Orient.** Read the existing specs, `docs/DECISIONS.md`, `docs/BACKLOG.md` and, for an existing
@@ -30,8 +33,9 @@ revision: changes are new decisions, and a change that invalidates built phases 
    what must never happen; data and privacy; the screens; what already exists; money, mail,
    accounts and other things that touch the world; dates. Stop interviewing when a new question
    would not change the build.
-3. **Write** `docs/specs/<initiative>.md` from the template, status `draft`, every section filled
-   or marked "none" with the reason. Decisions the owner took in the interview go into §3 **and**
+3. **Write** `docs/specs/<initiative>.md` from the template, status `draft`, sized to the work: a
+   small initiative is a page, and a section that does not apply is left out (the others keep their
+   numbers). Decisions the owner took in the interview go into §3 **and**
    `docs/DECISIONS.md` (next free `D-` number, newest first). What the owner declined goes to
    §4 non-goals or `docs/BACKLOG.md`. Questions that are still open go to §11 with options and a
    recommendation. Write for the owner: plain words, the user's view, no code.

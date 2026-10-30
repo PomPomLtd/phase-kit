@@ -14,6 +14,9 @@ initiative (`B`, `shop B`); no initiative → the Workflow section's default. No
 
 ## Step 0 — Resolve and gate
 
+A request rather than a phase id, small enough for the quick lane (conventions, "Two lanes") → say so
+and offer `/quick`, before anything below.
+
 1. Find `docs/phases/<initiative>/phase-<id>-*.md` (the paths the Workflow section names). No
    doc → the phase is unspecced: offer to write it (`/phases`) first; never improvise a build.
 2. Read the doc's **Status** and **Prerequisites**, its row in `PROGRESS.md`, and the spec's
@@ -27,37 +30,40 @@ initiative (`B`, `shop B`); no initiative → the Workflow section's default. No
 3. `git status`. Uncommitted changes that are not yours → another session may own the tree;
    propose a worktree rather than sharing it. Then the branch the Workflow section asks for:
    `phase/<initiative>-<id>` off `main` (create it, or switch to it if it exists), or `main`.
-4. Run the project's checks once, and the **verify command** of the last built phase (its doc's
-   top line). Red before you start → say so; fix only if the owner wants that first (it is not
-   this phase). A request that fits in one sentence is not a phase: say so and offer to just do it
-   (conventions, "Small changes are not phases").
+4. Run the **verify command** of the last built phase (its doc's top line); the full checks wait
+   for the first commit. Red before you start → say so; fix only if the owner wants that first (it
+   is not this phase).
+5. Show the board (conventions, "The board").
 
 ## Step 1 — Orient
 
-Read fully, in the order the doc's **Session protocol** lists: the spec sections it names, the
-code it names, `PROGRESS.md` (the row, the neighbours, the latest log entries), `docs/DECISIONS.md`
-entries it cites, the doc itself. Look at the code as it is now, not as the doc remembers it.
-Verify framework and library behaviour against their current docs, never from memory.
+Read what the doc's **Read first** line names (older docs: its Session protocol), the code as it is
+now, not as the doc remembers it, and the doc itself. From `PROGRESS.md` the row, the neighbours and
+the latest log entry. Verify framework and library behaviour against their current docs, never from
+memory.
 
 ## Step 2 — Plan
 
-The doc already holds an approved plan from an earlier session → resume at the first open task
-and say so. Otherwise **enter plan mode** and plan this phase only, inside its Out of scope: what
-the owner will see at the end, the steps, the files, the tests, the data changes, what is deferred
-and where it goes. Written for the owner: outcomes first, files second. A risky phase (money, mail,
-authentication, deletion, migration, or the spec says so) gets the plan review of the conventions
-before the plan goes to the owner. The owner's approval is the go for code; it is not a go for
-deploying, sending or deleting anything. Questions on the way go through AskUserQuestion with
-options and a recommendation. Record the approved plan in the doc (Session protocol or a
-"Plan" block) and set the row to `in progress`.
+Status `in progress` → an earlier session's plan was approved (it is in the Tasks, or in a Plan block
+in older docs): resume at the first open task and say so. Otherwise **enter plan mode**, even when the
+doc looks complete, and plan this phase only, inside its Out of scope. The doc's Tasks are the plan's
+steps: do not copy them out. The plan says, in a dozen lines or so, what
+the owner will see at the end, what has changed since the doc was written, what you would do
+differently, and any open choice. Written for the owner: outcomes first, files second. A risky phase
+(money, mail, authentication, deletion, migration, or the spec says so) gets the plan review of the
+conventions before the plan goes to the owner. The owner's approval is the go for code; it is not a
+go for deploying, sending or deleting anything. Questions on the way go through AskUserQuestion with
+options and a recommendation. Record the approval by correcting the doc's Tasks where the plan
+differs, not with a copy of the plan, and set the row to `in progress`.
 
 ## Step 3 — Build
 
 Small commits with conventional messages, no AI attribution; the checks green before each one.
-Every behaviour ships with its test in the same commit. Stay inside Out of scope: an idea that does
-not fit goes to `docs/BACKLOG.md`, a question to the owner, a decision to `docs/DECISIONS.md`.
-After three failed attempts at one thing: stop, write down what failed, reassess. A phase that
-grows beyond a session is split, and the split recorded.
+Every behaviour ships with its test in the same commit. Tick each task in the doc as it finishes
+and give the owner the board's one-line update. Stay inside Out of scope: an idea that does not fit
+goes to `docs/BACKLOG.md`, a question to the owner, a decision to `docs/DECISIONS.md`. After three
+failed attempts at one thing: stop, write down what failed, reassess. A phase that grows beyond a
+session is split, and the split recorded.
 
 ## Step 4 — Verify
 
@@ -71,4 +77,5 @@ list a person can follow, and the status becomes `awaiting <Owner>` rather than 
 ## Step 5 — Close out and stop
 
 Run `/handoff` (the close-out checklist lives there, and it is the same whether the phase finished
-or not). One session = one phase: do not start the next phase; say what it is.
+or not). One session = one phase: say what the next phase is and start it only if the owner says to
+keep going and the context has room.

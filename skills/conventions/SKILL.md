@@ -21,13 +21,23 @@ The vocabulary every skill uses. A project's own rules (checks, owner, deploy) l
 5. **Your turn**: the owner checks what only a person can, says what they saw, and the phase becomes
    `verified`.
 
+## Two lanes
+
+- **Quick lane** (`/quick`): a fix, a tweak or a small feature with an obvious shape, done now: the
+  change, its test, the checks, a commit. No spec, phase doc, plan mode or handoff. A request that
+  fits in a sentence or two belongs here, unless the full lane's list below catches it; say so rather
+  than starting a phase for it.
+- **Full lane** (the loop above): anything that needs design decisions, spans sessions, belongs to a
+  `draft` spec, changes how money moves, who gets mail or who can log in or see what, deletes data or
+  migrates a database.
+
 ## Files and their roles
 
 | File | Role | Written by |
 |---|---|---|
 | `docs/specs/<initiative>.md` | What and why. Status `draft` / `confirmed` / `superseded`. | `/spec` |
 | `docs/phases/<initiative>/README.md` | The phase table, the order, the calendar, conventions. | `/phases` |
-| `docs/phases/<initiative>/PROGRESS.md` | Status per phase, the **Next** pointer, open items, the log (newest first). "An outdated PROGRESS is a bug." | every session |
+| `docs/phases/<initiative>/PROGRESS.md` | Status per phase, the **Next** pointer, open items, the log (newest first). "An outdated PROGRESS is a bug." | every phase session |
 | `docs/phases/<initiative>/phase-<id>-<slug>.md` | One phase: plan-mode-ready in front, the Handoff at the back. | `/phases`, then `/phase` |
 | `docs/DECISIONS.md` | Rulings, `D-001`… newest first, dated and attributed. | anyone who decides |
 | `docs/BACKLOG.md` | Parked ideas with a revival trigger. | `/backlog`, close-outs |
@@ -58,6 +68,58 @@ question; the answers are decisions) → `superseded` (replaced by a newer spec;
 
 A phase is never `verified` by Claude alone when "Your turn" lists anything.
 
+## The board
+
+The whole project at a glance, worked out from the docs each time and never stored.
+
+```
+shop: about 40% done (≈4 of 10 sessions)
+
+0  Foundation            ████████████  verified
+A  Product pages         ████████████  awaiting you (one look on a phone)
+B  Cart and checkout     █████░░░░░░░  in progress (9 of 21)
+C  Payments              ░░░░░░░░░░░░
+D  Order mails           ░░░░░░░░░░░░
+E  Go-live               ░░░░░░░░░░░░
+
+Next: B, the empty cart. Waiting on you: one look.
+```
+
+- **Rows**: one per phase in table order, in a code block so the columns line up; the name cut to
+  about 20 characters. A `phase/*` branch not merged yet holds its phase's truth: read that row and
+  doc from the branch (`git show`).
+- **Share**: `specced` 0. `in progress` the doc's ticked checkboxes over all its checkboxes
+  (`grep -cFi -e '- [x]' <doc>` and `grep -cF -e '- [ ]' <doc>`, no need to read the doc; no
+  checkboxes → your honest estimate). `built`, `awaiting <Owner>`, `verified` and an older doc's own
+  words for done ("Complete", "✅") 1. `parked` 0, and left out of the %.
+- **Bar**: 12 cells; 12 × share, rounded half up; `in progress` at least 1 cell and at most 11.
+- **Right column**: nothing for `specced`. Otherwise the status in the owner's words, with what it
+  needs from them in a few words: "awaiting you (one look on a phone)", "in progress (9 of 21)",
+  "built", "verified", "parked (D-012)".
+- **The %**: each phase counts for its sessions in the README table (a range: the upper end; no
+  column: 1). Share × sessions, summed, over all sessions, not read off the bars; rounded half up to
+  the nearest 5 and always "about", with the ≈ count beside it, to the nearest half, so the number
+  can be checked. At most "about 95%" until every phase is built; then "all built, waiting on you"
+  until nothing waits on the owner.
+- **Several initiatives**: the one being worked on in full, each other one line
+  (`newsletter  ██████░░░░░░  about 50%`).
+
+Show the full board when a `/phase` session starts, when a phase session stops to wait on the owner
+with a result, at `/handoff` and in `/progress`. Between those, after each finished task, one line:
+`B  █████░░░░░░░  9 of 21 · about 40% · cart page done`.
+
+## Say it once
+
+Every doc costs time to write and is read again at the start of a session.
+
+- A fact has one home; elsewhere, link to it. A phase doc points at the spec's § instead of retelling
+  it. PROGRESS's log points at the phase doc's Handoff. A TODO item points at "Your turn".
+- Sizes to aim for: a phase doc 40–80 lines before its session, a Handoff 10–20 lines, **Next** one
+  sentence, a log entry up to three lines, a spec no longer than its decisions need (a small
+  initiative: a page). A phase doc that wants more is two phases, or holds design that belongs in
+  the spec.
+- A section with nothing to say is left out.
+
 ## Decisions
 
 `D-001`, `D-002`, … per project, in `docs/DECISIONS.md`, newest first. An entry has a title, who
@@ -72,8 +134,9 @@ AskUserQuestion when it exists; never as open-ended essays. The answer becomes a
 ## Evidence
 
 An acceptance criterion is ticked with what proves it: the test's name and that it passes, a
-count, a command and what it printed, a screenshot, a page opened in the browser. "Done" without
-evidence is not ticked. Numbers and judgements only a person can make go to "Your turn".
+count, a command and what it printed, a screenshot, a page opened in the browser; a line is usually
+enough. "Done" without evidence is not ticked. Numbers and judgements only a person can make go to
+"Your turn".
 
 Every phase names one **verify command** at the top of its doc: a command that fails when the
 phase's main promise is broken (a test file, a smoke script, a build). It is the first thing the
@@ -83,19 +146,17 @@ grades it alone: the diff review (below) reads the doc and the diff with fresh e
 
 ## Sessions
 
-- **One session, one phase.** Do not start the next phase in the same session; hand off instead.
-- **Plan once, resume many**: a phase doc that already holds an approved plan is resumed at the
-  first open task; plan mode is for a plan that does not exist yet or no longer fits.
+- **One session, one phase.** Hand off rather than start the next phase. Carry on in the same
+  session only when the owner says to and the context has room; the handoff still comes first.
+- **Plan once, resume many**: a phase `in progress` has its approved plan in the doc's Tasks (older
+  docs: a Plan block) and is resumed at the first open task; plan mode is for a phase not started, or
+  a plan that no longer fits.
 - **Three attempts**: after three failed attempts at one thing, stop, write down what failed and
   why, and reassess (a different approach, a smaller problem, or a question to the owner).
 - **A phase that blows up** mid-session is split: the doc records what landed and what moved to a
   new phase doc; PROGRESS says so.
 - **Context**: when the session is long, hand off early. The next session reads the docs, not the
   transcript.
-- **Small changes are not phases.** A fix or tweak that fits in one sentence skips the ceremony:
-  do it with its test, run the checks, commit, one line in `CHANGELOG.md` if a user would notice.
-  No phase doc, no plan mode, no handoff. If it touches a phase in progress, that phase's doc gets
-  a line. Three such changes in a row that belong together are a phase.
 - **The spec stays true.** When a phase departs from the spec (the owner changed their mind, reality
   disagreed), the spec is corrected in the same session with a `D-` entry, so the next phase is
   built from a spec that matches the product, not from history.
@@ -133,10 +194,10 @@ Two reviews, both by a fresh subagent that reads the phase doc and nothing of th
 - **Plan review**, before code, on a phase that touches money, mail, authentication, deletion,
   data migration or anything the spec calls risky: "find what this plan gets wrong or leaves
   out". The findings that change the plan are taken to the owner; the rest are noted in the doc.
-- **Diff review**, before every handoff: the diff against the phase doc's Tasks and Acceptance
-  criteria, hunting bugs, missing tests and scope creep. Real findings are fixed in the session;
-  the ones that are not go to the Handoff with the reason. Claude Code's own `/code-review`, when
-  it exists, is that review.
+- **Diff review**, once per phase, when its tasks are done: the diff against the phase doc's Tasks
+  and Acceptance criteria, hunting bugs, missing tests and scope creep. Not for a docs-only diff or
+  a session that stops mid-phase. Real findings are fixed in the session; the ones that are not go
+  to the Handoff with the reason. Claude Code's own `/code-review`, when it exists, is that review.
 
 ## Writing for the owner
 

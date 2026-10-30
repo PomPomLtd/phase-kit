@@ -27,8 +27,8 @@ skill writes documents only.
    see; depends only on earlier phases. Order by risk and by what the owner needs first.
    A new project starts with **Phase 0, Foundation**: the scaffold, the checks (lint, typecheck,
    tests, build), a first deploy or run, the Workflow section's `{{CHECKS}}` / `{{RUN}}` /
-   `{{DEPLOY}}` lines filled in. Three to eight phases is usual; more means the spec is two
-   initiatives.
+   `{{DEPLOY}}` lines filled in. Fewer is better: two to six phases is usual, one is fine, more
+   than eight means the spec is two initiatives.
 3. Propose the table (id, name, goal in one line, depends on, sessions) and the order **before
    writing the docs**; take the owner's changes. If any slicing choice is a real decision (what
    comes first, what is left out), it goes to `docs/DECISIONS.md`.
@@ -39,11 +39,12 @@ skill writes documents only.
   adds to CLAUDE.md's rules.
 - `PROGRESS.md` from its template: every phase `specced`, **Next** pointing at the first, a first
   log entry (today: phases written, the decisions taken).
-- One `phase-<id>-<slug>.md` per phase from the template, **self-contained**: a session that reads
-  only this doc, PROGRESS and the spec sections it names can build the phase. Session protocol
-  lists the real files to read. Tasks are concrete and checkable. Out of scope names where each
-  thing went. Testing names the tests or the walk-through. Acceptance criteria are the goal made
-  checkable, each independently. "Your turn" is written for the owner. Handoff is empty.
+- One `phase-<id>-<slug>.md` per phase from the template, **self-contained but short** (about 40–80
+  lines; conventions, "Say it once"): a session that reads only this doc, PROGRESS and the spec
+  sections it names can build the phase, so point at the spec instead of retelling it. **Read first**
+  names the real files. Tasks are concrete and checkable. Out of scope names where each thing went.
+  Acceptance criteria are the goal made checkable, each independently, each naming its proof (a test,
+  a walk-through). "Your turn" is written for the owner. Handoff is empty.
 - Phase ids `0`, `A`, `B`, …; slugs short and lower-case.
 
 Then say, in plain words, what was written and that the next step is `/phase <initiative> 0`.

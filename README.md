@@ -7,7 +7,9 @@ session. Each session builds **one phase**: Claude reads the plan, proposes how,
 builds and tests, and it leaves a **handoff** so the next session can start cold. Everything that
 was decided is written down with a number. Nothing is built from a spec you have not confirmed.
 
-It is a Claude Code plugin: seven slash commands plus the document templates they use. It works in
+Small things skip all of that: `/quick` makes the change, tests it and commits it.
+
+It is a Claude Code plugin: eight slash commands plus the document templates they use. It works in
 the Claude Code desktop app, in the terminal and in the VS Code extension. It was distilled from
 three real projects at Pom Pom GmbH in Zurich.
 
@@ -44,6 +46,40 @@ Then, in a project (new or old): `/kit-setup`.
 One session = one phase. When a session gets long, say `/handoff`; the next one reads the docs,
 not the old conversation.
 
+## The quick lane
+
+```
+/quick the date on the news page is wrong
+```
+
+For a fix, a tweak or a small feature with an obvious shape. Claude makes the change with its test,
+runs the checks and commits. There is no spec, no phase doc, no plan to approve and no handoff, and
+it works in a project that never ran `/kit-setup`. If the job turns out bigger than it looked, or
+changes how money moves, who gets mail or who can log in, or deletes data, Claude stops and says so.
+Deploying still waits for your word. It only runs when you ask for it: an ordinary "fix this" gets
+Claude's normal behaviour.
+
+## Where we stand
+
+`/progress`, the start of every `/phase` and every `/handoff` show the whole project, and during a
+phase you get a one-line update after each finished task:
+
+```
+shop: about 40% done (≈4 of 10 sessions)
+
+0  Foundation            ████████████  verified
+A  Product pages         ████████████  awaiting you (one look on a phone)
+B  Cart and checkout     █████░░░░░░░  in progress (9 of 21)
+C  Payments              ░░░░░░░░░░░░
+D  Order mails           ░░░░░░░░░░░░
+E  Go-live               ░░░░░░░░░░░░
+
+Next: B, the empty cart. Waiting on you: one look.
+```
+
+A phase in progress fills up as its checklist is ticked. The % counts each phase by how many sessions
+it is expected to take, so it tracks the work left rather than the rows on the board.
+
 ## What the files are for
 
 | File | What it holds |
@@ -73,7 +109,8 @@ Statuses of a phase: `specced` → `in progress` → `built` → `awaiting <you>
   put a finished phase live, where the project deploys from `main`.
 - **Do your turn.** Each phase ends with a "Your turn" list: open this, press that, you should
   see this. Tell Claude what you saw. That is how a phase becomes `verified`.
-- **One phase per session.** Resist "and while you're at it". Say `/backlog the thing` instead.
+- **One phase per session.** Resist "and while you're at it". Say `/backlog the thing` instead, or
+  `/quick the thing` when it is small.
 - **Start sessions with `/progress`.** It reads the docs and proposes the one command to run.
 
 ## Words you will meet
@@ -87,17 +124,11 @@ Statuses of a phase: `specced` → `in progress` → `built` → `awaiting <you>
   offered for merging on GitHub, with the handoff as its description. `/kit-setup` picks the
   simplest arrangement that fits your project.
 - **Evidence**: a ticked acceptance criterion names what proved it (a test, a screenshot, a
-  command's output). Yo mama's so thorough, she ticks her shopping list with receipts.
-
-## Three jokes for Gaston, as commissioned
-
-- Yo mama's PROGRESS.md is so long, `git clone` asks for a lunch break.
-- Yo mama's so organised, she wrote a spec before she had kids, and the kids were `confirmed`.
-- Yo mama's specs are so good, her backlog has a backlog.
+  command's output).
 
 ## For the curious
 
-- Everything is in `skills/`, one folder each: the seven commands, and three hidden ones the
+- Everything is in `skills/`, one folder each: the eight commands, and three hidden ones the
   commands load (`conventions`, the shared vocabulary; `templates`, the documents; `phase-example`,
   a real, filled-in phase doc).
 - `docs/for-sam.md` says where each idea came from and how to use the kit in a project that already

@@ -1,8 +1,8 @@
 {
   "name": "phase-kit",
   "displayName": "Phase kit",
-  "version": "0.1.0",
-  "description": "Build software in phases from written specs: /spec writes the spec with you, /phases slices it into one-session phase docs, /phase runs one build session (orient, plan mode, build, verify, hand off), /handoff closes a session, /progress says where things stand, /backlog parks an idea. Every decision is written down; nothing is built from an unconfirmed spec.",
+  "version": "0.2.0",
+  "description": "Build software in phases from written specs: /spec writes the spec with you, /phases slices it into one-session phase docs, /phase runs one build session (orient, plan mode, build, verify, hand off), /handoff closes a session, /progress says where things stand, /backlog parks an idea, /quick does a small change without the ceremony. Every decision is written down; nothing is built from an unconfirmed spec.",
   "author": {
     "name": "Sam Beatty",
     "email": "hello@pom-pom.ch"

@@ -6,8 +6,8 @@ argument-hint: "[owner name]"
 
 # /kit-setup — the workflow in this project
 
-Goal: after this, `/spec`, `/phases`, `/phase`, `/handoff`, `/progress` and `/backlog` know where
-everything is, and the owner knows what happened. Load `phase-kit:conventions` and
+Goal: after this, `/spec`, `/phases`, `/phase`, `/handoff`, `/progress`, `/backlog` and `/quick` know
+where everything is, and the owner knows what happened. Load `phase-kit:conventions` and
 `phase-kit:templates` with the Skill tool first.
 
 ## 1. Look before writing

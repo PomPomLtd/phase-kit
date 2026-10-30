@@ -20,8 +20,8 @@ placeholder filled; never leave a `{{…}}` behind.
 This project is built in phases from written specs with the phase-kit skills: `/spec` (write or
 revise a spec with the owner), `/phases` (slice a confirmed spec into one-session phase docs),
 `/phase <id>` (one build session = one phase), `/handoff` (close a session), `/progress` (where
-things stand), `/backlog` (park an idea). The vocabulary (statuses, decision ids, what each file
-is for) is the kit's `conventions` skill.
+things stand), `/backlog` (park an idea), `/quick` (a small change now, without the above). The
+vocabulary (statuses, decision ids, what each file is for) is the kit's `conventions` skill.
 
 - **Owner**: {{OWNER}} — decides, signs off, and does what only a person can (the "Your turn"
   lists). Never deploy, send, publish or delete without the owner's explicit go in the session.
@@ -34,9 +34,9 @@ is for) is the kit's `conventions` skill.
 - **Running the app**: {{RUN}}
 - **Deploy**: {{DEPLOY}}
 - **Branches**: {{BRANCHING}}
-- **Rules**: no code before a plan the owner approved (plan mode); a build session works on one
-  phase and stays inside its "Out of scope"; every behaviour ships with its test in the same
-  change; after three failed attempts at one thing, stop and reassess; small conventional commits
+- **Rules**: no phase code before a plan the owner approved (plan mode; `/quick` is the exception);
+  a build session works on one phase and stays inside its "Out of scope"; every behaviour ships with
+  its test in the same change; after three failed attempts at one thing, stop and reassess; small conventional commits
   (`feat(area): …`), no AI attribution; a spec that is still `draft` is never built.
 ```
 
@@ -52,7 +52,8 @@ is for) is the kit's `conventions` skill.
 _A spec is `draft` until the owner has answered every open question (§11) and said so; then it
 is `confirmed` and may be sliced into phases. It describes what the thing does and why, not how
 the code is laid out — that is the phase docs' job. Decisions taken while writing it are listed
-in §3 with their `D-…` ids from `docs/DECISIONS.md`._
+in §3 with their `D-…` ids from `docs/DECISIONS.md`. A section that does not apply is left out;
+the others keep their numbers._
 
 ## 1. Motivation
 
@@ -129,9 +130,9 @@ Build plan for **{{TITLE}}**. Parent spec: [`../../specs/{{INITIATIVE}}.md`](../
 (the `§` references below point there). Status and the session log live in
 [`PROGRESS.md`](PROGRESS.md). Run a phase with `/phase {{INITIATIVE}} <id>`.
 
-Each phase file is self-contained and plan-mode-ready: Status, Prerequisites, Session protocol,
-Goal, Tasks, Out of scope, Testing, Acceptance criteria, Your turn, Handoff. **One session = one
-phase.** Every phase leaves the project working and the checks green.
+Each phase file is self-contained and plan-mode-ready: Status, Prerequisites, Read first, Goal,
+Tasks, Out of scope, Acceptance criteria, Your turn, Handoff. **One session = one phase.** Every
+phase leaves the project working and the checks green.
 
 ## Calendar
 
@@ -159,10 +160,11 @@ Order: 0 → A → B → …. (Say which phases could run in either order, and w
 ```markdown
 # Progress — {{TITLE}}
 
-Single source of truth for build status. Every session updates this file (the row, and a log
-entry, newest first) before it ends. Spec: [`../../specs/{{INITIATIVE}}.md`](../../specs/{{INITIATIVE}}.md).
+Single source of truth for build status. Every phase session updates this file (the row, and a log
+entry of up to three lines, newest first) before it ends. Spec:
+[`../../specs/{{INITIATIVE}}.md`](../../specs/{{INITIATIVE}}.md).
 
-**Next**: Phase 0 (nothing started).
+**Next**: Phase 0 (nothing started). (One sentence.)
 
 | Phase | Name | Doc | Status |
 |---|---|---|---|
@@ -179,7 +181,8 @@ Statuses: `specced` · `in progress` · `built` · `awaiting {{OWNER}}` · `veri
 
 ### {{DATE}}: phases written
 
-(What the session did, what it decided, what is next. Newest entry first.)
+(What the session did, in up to three lines, with a link to the phase doc's Handoff. Newest entry
+first.)
 ```
 
 ## `phase` → `docs/phases/<initiative>/phase-<id>-<slug>.md`
@@ -191,48 +194,30 @@ Statuses: `specced` · `in progress` · `built` · `awaiting {{OWNER}}` · `veri
 **Prerequisites**: (phases that must be `built` or `verified` first; anything the owner must
 have done or provided, e.g. an account, a decision, a file).
 **Expected sessions**: 1.
-**Calendar**: (a date this phase must meet, or "none").
+**Calendar**: (a date this phase must meet; leave the line out if none).
 **Verify command**: (one command that fails when this phase's promise is broken; "to be added as
 the first task" until it exists).
-
-## Why
-
-The problem this phase solves and what it looks like when it is done, in the user's words. Point
-at the spec sections (§) it implements.
-
-## Session protocol (read first)
-
-1. Read `PROGRESS.md`, this file, the spec sections named above, and the code this phase
-   touches: (list the files or folders, or "the project is empty").
-2. **Enter plan mode.** Plan this phase only; get the owner's approval before any code. If this
-   doc already holds an approved plan (a later session of the same phase), resume at the first
-   open task instead.
-3. On completion: this doc's Status, Acceptance criteria and Handoff; `PROGRESS.md`;
-   `CHANGELOG.md`; `docs/DECISIONS.md` for anything decided on the way; `docs/TODO-….md` for
-   what only the owner can do.
+**Read first**: (the spec sections it implements, and the code it touches: real files or folders,
+or "the project is empty").
 
 ## Goal
 
-One paragraph: what works at the end of this phase that did not before, seen from the outside.
+One paragraph: what works at the end of this phase that did not before, seen from the outside, and
+why it matters. The rest of the why stays in the spec.
 
 ## Tasks
 
 - [ ] …
 - [ ] …
-- [ ] Tests for each of the above (named in Testing).
 
 ## Out of scope
 
 - (What this phase deliberately leaves alone, and where it went: a later phase, BACKLOG.)
 
-## Testing
-
-- (Which checks prove the tasks: unit tests by name, a browser walk-through, a command to run,
-  a file to look at. Say what "green" means for this phase.)
-
 ## Acceptance criteria
 
-Tick each with its evidence (a test name, a count, a command and its output, a screenshot).
+What must be true, each with how it will be proved (a test by name, a walk-through, a command).
+Tick each with its evidence, in a line.
 
 - [ ] …
 - [ ] The project's checks are green (CLAUDE.md › Workflow › Checks).
@@ -246,9 +231,9 @@ to open, what to press, what they should see, what to tell Claude afterwards. "N
 
 ## Handoff
 
-(Written at the end of the session: what was built, where it lives, what was decided and why,
-what was left out and why, what the next session should know. Newest session first if there are
-several.)
+(Written at the end of the session, about 10–20 lines: what was built and where it lives, what was
+decided, what was left out, what the next session must know. Not a retelling of the diff. Newest
+session first if there are several.)
 ```
 
 ## `DECISIONS` → `docs/DECISIONS.md`
