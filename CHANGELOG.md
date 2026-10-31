@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.0 — 2026-10-31
+
+The plan review was taking up to 20 minutes on plans that did not need it.
+
+- **Plan review levels**: none (the default, the plan comes straight to the owner), light (3–5 minutes,
+  a smaller model and a cap on what it reads) or deep (15–20 minutes, as before). Claude picks by what
+  a mistake would cost rather than by the topic, says which and why, and asks with what is at stake
+  when it is unsure. The owner's word overrules it.
+
 ## 0.2.0 — 2026-10-30
 
 From the first week on real projects, where the kit felt complicated and slow.

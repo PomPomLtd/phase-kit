@@ -191,13 +191,52 @@ The project's Workflow section says which of these applies:
 
 Two reviews, both by a fresh subagent that reads the phase doc and nothing of the session:
 
-- **Plan review**, before code, on a phase that touches money, mail, authentication, deletion,
-  data migration or anything the spec calls risky: "find what this plan gets wrong or leaves
-  out". The findings that change the plan are taken to the owner; the rest are noted in the doc.
+- **Plan review**, before code, at the level the plan calls for ("Plan review levels", below): "find
+  what this plan gets wrong or leaves out". The findings that change the plan are taken to the owner;
+  the rest are noted in the doc.
 - **Diff review**, once per phase, when its tasks are done: the diff against the phase doc's Tasks
   and Acceptance criteria, hunting bugs, missing tests and scope creep. Not for a docs-only diff or
   a session that stops mid-phase. Real findings are fixed in the session; the ones that are not go
   to the Handoff with the reason. Claude Code's own `/code-review`, when it exists, is that review.
+
+## Plan review levels
+
+A plan review is worth its wait only where a wrong plan would cost more than the wait. Once the plan
+is drafted, pick the level from what a mistake would cost, not from the topic: rewording an order mail
+is not the same as changing who receives it.
+
+| Level | When | Wait |
+|---|---|---|
+| **None** (the default) | The plan is clear and follows a pattern the project already has. A mistake would show in the tests or at the owner's first look, and reverting a commit undoes it. | none |
+| **Light** | A mistake would cost more than a revert but stays contained (a local copy, behind a switch, nothing live), or one or two things in the plan rest on something unproven, or several parts depend on each other. | 3–5 minutes |
+| **Deep** | A mistake could reach real people or live data and be hard to undo, and the tests would not catch it: a production migration, deletion or cutover; how money moves; who gets mail; who can log in or see what, or another security boundary; commands the owner will type on a live server. | 15–20 minutes |
+
+Then act on it:
+
+- **Clear**: do it. None: the plan goes straight to the owner. Light or Deep: say which and why in one
+  line, and run it without asking.
+- **Unsure between two levels**: ask once, through AskUserQuestion, before running anything. Say what
+  is at stake in a sentence or two (what would go wrong, who would notice, how hard it is to undo),
+  offer the two levels with their waits, and recommend one.
+- **The plan's first line** names the level and why ("Plan review: none, a new filter on a page that
+  has tests"), so the owner can ask for more when approving.
+- **Who overrules**: the owner's word beats everything ("skip the review", "do a deep one"). A spec or
+  phase doc that rules a review out settles it; one that asks for a review without naming a level gets
+  Light or Deep, by the table.
+- **Once per plan**: a phase resumed `in progress` does not get another.
+
+What the subagent is told:
+
+- **Both**: read-only; the plan, the phase doc and the one to three things you worry about most.
+  Findings only, most serious first, each with its evidence and the change it asks for; what checked
+  out gets one line at most.
+- **Light**: on a smaller, faster model than the session's, where the tool allows it. Those and the
+  files they hinge on, at most about 12 reads or commands in total, without tracing into dependencies;
+  at most five findings, under 300 words. What it cannot settle within that, it names rather than
+  chases. If that is a reason for a Deep, treat it as "Unsure" above. It is a quick second look and
+  will miss things, which is why anything live gets a Deep.
+- **Deep**: the session's model and no limit on reads; it checks the plan's claims against the code
+  and its dependencies.
 
 ## Writing for the owner
 

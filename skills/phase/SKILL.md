@@ -49,12 +49,12 @@ in older docs): resume at the first open task and say so. Otherwise **enter plan
 doc looks complete, and plan this phase only, inside its Out of scope. The doc's Tasks are the plan's
 steps: do not copy them out. The plan says, in a dozen lines or so, what
 the owner will see at the end, what has changed since the doc was written, what you would do
-differently, and any open choice. Written for the owner: outcomes first, files second. A risky phase
-(money, mail, authentication, deletion, migration, or the spec says so) gets the plan review of the
-conventions before the plan goes to the owner. The owner's approval is the go for code; it is not a
-go for deploying, sending or deleting anything. Questions on the way go through AskUserQuestion with
-options and a recommendation. Record the approval by correcting the doc's Tasks where the plan
-differs, not with a copy of the plan, and set the row to `in progress`.
+differently, and any open choice. Written for the owner: outcomes first, files second. Before it goes
+to the owner, pick the level of plan review it needs (conventions, "Plan review levels") and act on
+it: a clear plan with little at stake has none and goes straight to the owner. The owner's approval
+is the go for code; it is not a go for deploying, sending or deleting anything. Questions on the way
+go through AskUserQuestion with options and a recommendation. Record the approval by correcting the
+doc's Tasks where the plan differs, not with a copy of the plan, and set the row to `in progress`.
 
 ## Step 3 — Build
 

@@ -22,8 +22,9 @@ What the kit took from each project, what it changes, and how to use it in the e
   read code. Same thing.
 - **Branching is a setting** (`main directly` / phase branches / pull requests) and the handoff
   does the branch, push and pull request; the merge stays the owner's go.
-- **Two reviews** by a fresh subagent: the plan review on risky phases (batzen) and a diff review
-  once per phase (new; `/code-review` where it exists).
+- **Two reviews** by a fresh subagent: the plan review, at the level the plan calls for (it began as
+  batzen's review of risky phases), and a diff review once per phase (new; `/code-review` where it
+  exists).
 - **A PROGRESS archive rule** (over ~400 lines, oldest entries move out): k4's classical PROGRESS
   is near 1,000 lines and batzen's was split by hand.
 - **`/handoff` is its own command**, so a session that ran long can still close properly; k4's
@@ -85,6 +86,44 @@ handoff only when a file is missing, one diff review per phase). Left alone on p
 unconfirmed spec, plan approval before phase code, decisions, evidence, "Your turn".
 
 Docs written before 0.2.0 keep their old sections; `/phase` reads both.
+
+## What the plan review cost (31 Oct 2026)
+
+Measured from the box's transcripts. Clock time from `/phase` to the first plan shown, waits on you
+included:
+
+| Sessions | Count | Minutes to the first plan |
+|---|---|---|
+| With a plan review | 5 | 30–43 |
+| Without | 8 | 2–15, median 7 |
+
+Those plans were also bigger, so the review is not the whole gap; on its own it ran 7 minutes on
+28 Oct and 14–20 from 30 Oct, at about 300,000 tokens and 48–61 tool calls, and the session then has
+to check and fold in a long report. The old trigger went by topic, so even a VAT line printed on an
+invoice would count as "money".
+
+It earns its wait where the plan touches something live. It found a rollback that would have stopped
+at its first step, and a `craft up` that would have skipped a production migration on an Enter, with
+exit 0. So 0.3.0 keeps it and scales it: none by default, light, or deep, by what a mistake would cost,
+asking you with what is at stake when unsure.
+
+Fresh sessions given five made-up phases picked as intended: a sort and the VAT line got none, a local
+change behind a switch light, a payment cutover deep, and a customer data export asked first.
+
+The light brief was replayed on one real plan, rotpunkt's Phase A as it stood before its deep review.
+One plan, one run each, so these are indications:
+
+| Run | Minutes | Tool calls | Tokens | Its 5 plan-changing findings, found |
+|---|---|---|---|---|
+| Deep, 28 Oct (the original) | 6.8 | 26 | 157,000 | all 5 |
+| Light brief, session's model | 7.4 | 12 | 132,000 | 4 |
+| Light brief, smaller model | 3.0 | 11 | 107,000 | 3 (one only named as unsettled), and not the top one |
+
+Capping the reads alone saved no time on this plan. The smaller model is what made it fast, and it
+costs findings, so light is a quick look for contained plans, and anything live gets deep.
+
+Left alone on purpose: the diff review, which now costs about the same (10–22 minutes and
+233,000–316,000 tokens on the seven project phases reviewed on 30 Oct, up from 2–7 minutes on 28 Oct).
 
 ## Using it in the existing repos
 

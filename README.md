@@ -117,6 +117,10 @@ Statuses of a phase: `specced` → `in progress` → `built` → `awaiting <you>
 
 - **Plan mode**: Claude only reads and thinks, and shows you a plan; nothing is changed until you
   approve it. The kit makes Claude enter it before any build.
+- **Plan review**: a second Claude, knowing nothing of the session, looks for what the plan gets wrong
+  before any code is written. Most plans do not need one and come straight to you. Claude picks none,
+  light (3–5 minutes) or deep (15–20 minutes) by what a mistake would cost, says which and why, and
+  asks you, with what is at stake, when it is unsure. "Skip the review" or "do a deep one" overrules it.
 - **Checks**: the project's own tests and build steps. They must pass before every commit; Claude
   runs them, you do not have to.
 - **Commit**: a saved snapshot of the project with a message. **Branch**: a separate line of
