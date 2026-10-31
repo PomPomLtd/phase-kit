@@ -12,7 +12,9 @@ argument-hint: "<what to change>"
 
 ## Is it quick?
 
-Yes: a fix, a tweak, a copy change, a small feature with an obvious shape.
+Yes: a fix, a tweak, a copy change, a small feature with an obvious shape. Also yes: a bigger job that
+still fits one sitting and is not on the list below. Show a plan of about ten lines in the chat first,
+and wait for the owner's go.
 
 No, so say why in a sentence and offer `/spec` or `/backlog` before touching anything:
 
@@ -54,12 +56,13 @@ No PROGRESS entry, no TODO, no board: a quick change does not move a phase.
 
 ## If it grows
 
-More than one question, more than a handful of files, about an hour in, or something risky comes
-up: stop. Say what you found, what is done so far and whether to keep or undo it, and offer `/spec`
-or `/backlog`. Never turn a quick change into a large one quietly. The third quick change in a row
-on the same thing is a phase: say so.
+More than a handful of files and no plan shown yet: stop and show the ten lines. More than one
+question, more than about an hour in, or something risky comes up: stop. Say what you found, what is
+done so far and whether to keep or undo it, and offer `/spec` or `/backlog`. Never turn a quick change
+into a large one quietly. The third quick change in a row on the same thing is a phase: say so.
 
 ## Tell the owner
 
 Two or three lines: what is different now, how to see it, the checks' result, and the word that
-ships it ("merge it" where that deploys). Then stop.
+ships it ("merge it" where that deploys). Anything only they can do comes last and in full: where,
+the exact command or clicks, what they should see. Then stop.

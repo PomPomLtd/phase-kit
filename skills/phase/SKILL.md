@@ -32,7 +32,8 @@ and offer `/quick`, before anything below.
    `phase/<initiative>-<id>` off `main` (create it, or switch to it if it exists), or `main`.
 4. Run the **verify command** of the last built phase (its doc's top line); the full checks wait
    for the first commit. Red before you start → say so; fix only if the owner wants that first (it
-   is not this phase).
+   is not this phase). Nothing landed since that phase closed and the command is slow (it needs
+   services started, or takes more than a minute or so) → skip it and say so.
 5. Show the board (conventions, "The board").
 
 ## Step 1 — Orient
@@ -47,32 +48,35 @@ memory.
 Status `in progress` → an earlier session's plan was approved (it is in the Tasks, or in a Plan block
 in older docs): resume at the first open task and say so. Otherwise **enter plan mode**, even when the
 doc looks complete, and plan this phase only, inside its Out of scope. The doc's Tasks are the plan's
-steps: do not copy them out. The plan says, in a dozen lines or so, what
-the owner will see at the end, what has changed since the doc was written, what you would do
-differently, and any open choice. Written for the owner: outcomes first, files second. Before it goes
-to the owner, pick the level of plan review it needs (conventions, "Plan review levels") and act on
-it: a clear plan with little at stake has none and goes straight to the owner. The owner's approval
-is the go for code; it is not a go for deploying, sending or deleting anything. Questions on the way
-go through AskUserQuestion with options and a recommendation. Record the approval by correcting the
-doc's Tasks where the plan differs, not with a copy of the plan, and set the row to `in progress`.
+steps: do not copy them out. The plan says what the owner will see at the end, what has changed since
+the doc was written, what you would do differently, any open choice, and what the owner will have to
+do and when, as one bundle (conventions, "The owner's steps"). Written for the owner: outcomes first,
+files second. Before it goes to the owner, pick the phase's review level (conventions, "Review levels")
+and act on it; the level also sets the plan's length. A clear plan with little at stake is a dozen
+lines, has no review and goes straight to the owner. The owner's approval is the go for code; it is
+not a go for deploying, sending or deleting anything. Questions on the way go through AskUserQuestion
+with options and a recommendation. Record the approval by correcting the doc's Tasks where the plan
+differs, not with a copy of the plan, add the `**Review level**` line, and set the row to `in progress`.
 
 ## Step 3 — Build
 
 Small commits with conventional messages, no AI attribution; the checks green before each one.
 Every behaviour ships with its test in the same commit. Tick each task in the doc as it finishes
 and give the owner the board's one-line update. Stay inside Out of scope: an idea that does not fit
-goes to `docs/BACKLOG.md`, a question to the owner, a decision to `docs/DECISIONS.md`. After three
-failed attempts at one thing: stop, write down what failed, reassess. A phase that grows beyond a
-session is split, and the split recorded.
+goes to `docs/BACKLOG.md`, a question to the owner, a decision to `docs/DECISIONS.md`. A step only the
+owner can do goes on their list, and the build carries on with whatever does not depend on it. After
+three failed attempts at one thing: stop, write down what failed, reassess. A phase that grows beyond
+a session is split, and the split recorded.
 
 ## Step 4 — Verify
 
 Tick each acceptance criterion **in the doc** with its evidence (the conventions' "Evidence"), and
 make sure the doc's verify command exists and fails when it should.
 Where the phase has a user interface, run the app (the Workflow section's run line) and look at
-it, on a phone-sized window too, before ticking; a screenshot is evidence. Run the diff review of
-the conventions; fix what is real. Whatever only the owner can judge goes to "Your turn", as a
-list a person can follow, and the status becomes `awaiting <Owner>` rather than `verified`.
+it, on a phone-sized window too, before ticking; a screenshot is evidence. Run the diff review at the
+phase's level; fix what is real. Whatever only the owner can do or judge goes to "Your turn", with
+every step written the way the conventions' "The owner's steps" asks, and the status becomes
+`awaiting <Owner>` rather than `verified`.
 
 ## Step 5 — Close out and stop
 

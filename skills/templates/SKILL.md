@@ -199,6 +199,7 @@ have done or provided, e.g. an account, a decision, a file).
 the first task" until it exists).
 **Read first**: (the spec sections it implements, and the code it touches: real files or folders,
 or "the project is empty").
+**Review level**: (added when the plan is approved: none, light or deep, and why.)
 
 ## Goal
 
@@ -224,16 +225,17 @@ Tick each with its evidence, in a line.
 
 ## Your turn
 
-What only the owner can check or decide, as a list they can follow without reading code: what
-to open, what to press, what they should see, what to tell Claude afterwards. "Nothing" is fine.
+What only the owner can do, check or decide, as one list they can follow without reading code: where
+(which server, user and folder, or which site and page), the exact command or clicks, what they should
+see, what to tell Claude afterwards. "Nothing" is fine.
 
 1. …
 
 ## Handoff
 
-(Written at the end of the session, about 10–20 lines: what was built and where it lives, what was
-decided, what was left out, what the next session must know. Not a retelling of the diff. Newest
-session first if there are several.)
+(Written at the end of the session, about 10–20 lines, or a few at review level None: what was built
+and where it lives, what was decided, what was left out, what the next session must know. Not a
+retelling of the diff. Newest session first if there are several.)
 ```
 
 ## `DECISIONS` → `docs/DECISIONS.md`

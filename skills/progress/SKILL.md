@@ -16,8 +16,9 @@ Report, short and in plain words:
 
 - The board (conventions, "The board"), first. A `draft` spec has no board yet: say so and name its
   open questions. No initiative at all → say so and offer `/spec` or `/quick`.
-- What is waiting on the owner (their TODO's open items, phases `awaiting <Owner>`), as things
-  they can do now.
+- What is waiting on the owner (their TODO's open items, phases `awaiting <Owner>`), as one bundle
+  they can do from this message, with every step written out from each phase's "Your turn"
+  (conventions, "The owner's steps"), not pointed at.
 - Anything odd: uncommitted changes, a branch that is not `main`, a `draft` spec with phase docs,
   a PROGRESS whose Next points at a finished phase, a phase `in progress` with commits of its own
   newer than its latest log entry (quick-lane commits do not count).

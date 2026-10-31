@@ -24,7 +24,8 @@ skill writes documents only.
    are cut along what exists, not along the spec's chapters.
 2. Cut phases so that each: fits one focused session (a few hours of Claude's work; when in doubt,
    smaller); leaves the project working and the checks green; has a clear "done" the owner can
-   see; depends only on earlier phases. Order by risk and by what the owner needs first.
+   see; depends only on earlier phases. Order by risk and by what the owner needs first. Keep the
+   owner's manual steps together: within a phase, one stop at its end wherever the work allows.
    A new project starts with **Phase 0, Foundation**: the scaffold, the checks (lint, typecheck,
    tests, build), a first deploy or run, the Workflow section's `{{CHECKS}}` / `{{RUN}}` /
    `{{DEPLOY}}` lines filled in. Fewer is better: two to six phases is usual, one is fine, more
@@ -44,7 +45,8 @@ skill writes documents only.
   sections it names can build the phase, so point at the spec instead of retelling it. **Read first**
   names the real files. Tasks are concrete and checkable. Out of scope names where each thing went.
   Acceptance criteria are the goal made checkable, each independently, each naming its proof (a test,
-  a walk-through). "Your turn" is written for the owner. Handoff is empty.
+  a walk-through). "Your turn" is written for the owner, with exact commands and clicks wherever they
+  are already known (conventions, "The owner's steps"). Handoff is empty.
 - Phase ids `0`, `A`, `B`, …; slugs short and lower-case.
 
 Then say, in plain words, what was written and that the next step is `/phase <initiative> 0`.

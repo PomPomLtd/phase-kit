@@ -87,10 +87,10 @@ unconfirmed spec, plan approval before phase code, decisions, evidence, "Your tu
 
 Docs written before 0.2.0 keep their old sections; `/phase` reads both.
 
-## What the plan review cost (31 Oct 2026)
+## What the reviews cost (31 Oct 2026)
 
-Measured from the box's transcripts. Clock time from `/phase` to the first plan shown, waits on you
-included:
+**The plan review.** Measured from the box's transcripts. Clock time from `/phase` to the first plan
+shown, waits on you included:
 
 | Sessions | Count | Minutes to the first plan |
 |---|---|---|
@@ -122,8 +122,66 @@ One plan, one run each, so these are indications:
 Capping the reads alone saved no time on this plan. The smaller model is what made it fast, and it
 costs findings, so light is a quick look for contained plans, and anything live gets deep.
 
-Left alone on purpose: the diff review, which now costs about the same (10–22 minutes and
-233,000–316,000 tokens on the seven project phases reviewed on 30 Oct, up from 2–7 minutes on 28 Oct).
+**The diff review** had grown to the same size: 10–22 minutes and 233,000–316,000 tokens on the seven
+project phases reviewed on 30 Oct, up from 2–7 minutes on 28 Oct. It earns that on live work ("category
+pages can fatal during the deploy", a pasted runbook that would run on past a failed line). On small
+local phases the reports were mostly script nits. So one level per phase now sets both reviews, and a
+build that turned out riskier than its plan raises it.
+
+The light brief replayed on norkind's Phase A, a code change behind a flag, at the commit the original
+review saw. Again one run, so an indication:
+
+| Run | Minutes | Tool calls | Tokens | Findings |
+|---|---|---|---|---|
+| Deep, 30 Oct (the original) | 20.7 | 44 | 275,000 | 1 real, and nitpicks |
+| Light brief, smaller model | 3.3 | 12 | 100,000 | led with that same 1, plus 4 nobody has checked |
+
+The deep run also rendered pages and scrolled listings to prove things fine, which the light run could
+only name as unsettled. That is the difference you pay for on live work.
+
+## Where the rest of the time goes (31 Oct 2026)
+
+Ten real kit sessions since 0.2.0, active minutes, waits on you left out, the handoff measured from
+`/handoff` to your next message:
+
+| Stage | Sessions | Total | What fills it |
+|---|---|---|---|
+| `/phase` to the first plan | 8 | 133 | model 56, subagents 41, shell 37 |
+| The build | 4 | 153 | shell 67 (the projects' site and verify scripts the largest part), model 47, subagents 35 |
+| The handoff | 6 | 90 | median 9 minutes; the two over 30 were waiting on a diff review |
+
+The earlier table's `/handoff` looked far bigger only because its clock ran on after the handoff.
+
+What 0.3.0 did about it:
+
+- **The diff review runs in the background** while the docs get written, so it stops blocking the
+  handoff. No code changes until it reports, because one review caught the tree moving under it.
+- **The plan's length goes with the level.** Plans ran a median of 81 lines (56–169) against a target of
+  "a dozen or so", and they are what you read and what a review reads.
+- **The handoff's length goes with the level too**: a few lines at None. Handoffs reached 52–107 lines
+  on norkind's and fabrikat's first phases, against a target of 10–20.
+- **A slow verify command is skipped at the start** when nothing landed since it last passed (site and
+  verify scripts took 15 minutes across 28 runs before plans, plus `ddev start`).
+- **`/quick` takes bigger one-sitting jobs**, with a ten-line plan in the chat first. Until now the only
+  step up from a small fix was a spec, phases, a phase doc and a handoff.
+
+Left alone: running the checks before each commit (about 4 minutes across the builds, so not the
+problem), plan approval, the spec gate and evidence. Deep phases stay slow on purpose; a production
+cutover is where that time belongs.
+
+## Your steps, in full and bundled (31 Oct 2026)
+
+From you: "ALWAYS give me the exact steps there, step-by-step", not "now do step 3", and "bundle my
+manual steps, doing everything else you can do first". `/handoff` used to do the opposite and point at
+the TODO file and "Your turn". The conventions now have "The owner's steps", and `/phase`, `/handoff`,
+`/progress`, `/phases`, `/quick` and the phase template follow it. The docs still keep one copy ("Say it
+once"); a message to you is the exception and always carries the steps.
+
+Fresh `/handoff` sessions on made-up phases, with the steps buried in a runbook behind "do steps 3 and 4":
+all the steps came through in the message, numbered, with the commands and Cloudflare clicks written
+out and what to send back. At level None no subagent ran. At level light the capped brief ran in the
+background. A phase marked light whose runbook had you typing a migration on a live server raised itself
+to deep, and recorded why in the doc.
 
 ## Using it in the existing repos
 

@@ -2,12 +2,22 @@
 
 ## 0.3.0 — 2026-10-31
 
-The plan review was taking up to 20 minutes on plans that did not need it.
+Reviews were taking up to 20 minutes each on work that did not need them, and the owner's steps were
+scattered through the docs.
 
-- **Plan review levels**: none (the default, the plan comes straight to the owner), light (3–5 minutes,
-  a smaller model and a cap on what it reads) or deep (15–20 minutes, as before). Claude picks by what
-  a mistake would cost rather than by the topic, says which and why, and asks with what is at stake
-  when it is unsure. The owner's word overrules it.
+- **Review levels**: each phase gets one level, which sets both the plan review and the diff review:
+  none (the default; the plan comes straight to the owner), light (3–5 minutes each, a smaller model
+  and a cap on what it reads) or deep (15–20 minutes each, as before). Claude picks by what a mistake
+  would cost rather than by the topic, says which and why, and asks with what is at stake when it is
+  unsure. The owner's word overrules it.
+- **The owner's steps**: everything else is done first, then all their steps come at once, written out
+  in the message: where, the exact command or clicks, what they should see, what to send back. Never
+  "now do step 3".
+- **Less to wait for**: plans and handoffs get shorter at lower levels, the diff review runs in the
+  background while the docs are written, and a slow verify command is skipped at the start when nothing
+  has landed since it passed.
+- **`/quick` takes bigger jobs** that still fit one sitting, with a plan of about ten lines in the chat
+  first.
 
 ## 0.2.0 — 2026-10-30
 

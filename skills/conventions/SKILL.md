@@ -26,7 +26,8 @@ The vocabulary every skill uses. A project's own rules (checks, owner, deploy) l
 - **Quick lane** (`/quick`): a fix, a tweak or a small feature with an obvious shape, done now: the
   change, its test, the checks, a commit. No spec, phase doc, plan mode or handoff. A request that
   fits in a sentence or two belongs here, unless the full lane's list below catches it; say so rather
-  than starting a phase for it.
+  than starting a phase for it. A bigger job that still fits one sitting belongs here too, with a plan
+  of about ten lines in the chat and the owner's go first.
 - **Full lane** (the loop above): anything that needs design decisions, spans sessions, belongs to a
   `draft` spec, changes how money moves, who gets mail or who can log in or see what, deletes data or
   migrates a database.
@@ -113,11 +114,12 @@ with a result, at `/handoff` and in `/progress`. Between those, after each finis
 Every doc costs time to write and is read again at the start of a session.
 
 - A fact has one home; elsewhere, link to it. A phase doc points at the spec's § instead of retelling
-  it. PROGRESS's log points at the phase doc's Handoff. A TODO item points at "Your turn".
-- Sizes to aim for: a phase doc 40–80 lines before its session, a Handoff 10–20 lines, **Next** one
-  sentence, a log entry up to three lines, a spec no longer than its decisions need (a small
-  initiative: a page). A phase doc that wants more is two phases, or holds design that belongs in
-  the spec.
+  it. PROGRESS's log points at the phase doc's Handoff. A TODO item points at "Your turn". The one
+  exception is a message to the owner: what they have to do is written out in it ("The owner's steps").
+- Sizes to aim for: a phase doc 40–80 lines before its session, a Handoff 10–20 lines (review level
+  None: a few), **Next** one sentence, a log entry up to three lines, a spec no longer than its
+  decisions need (a small initiative: a page). A phase doc that wants more is two phases, or holds
+  design that belongs in the spec.
 - A section with nothing to say is left out.
 
 ## Decisions
@@ -141,8 +143,9 @@ enough. "Done" without evidence is not ticked. Numbers and judgements only a per
 Every phase names one **verify command** at the top of its doc: a command that fails when the
 phase's main promise is broken (a test file, a smoke script, a build). It is the first thing the
 next session runs, so a phase that quietly broke is caught before new work starts; a phase with no
-such command yet gets one as its first task. The session that built a phase is not the one that
-grades it alone: the diff review (below) reads the doc and the diff with fresh eyes.
+such command yet gets one as its first task. Where more is at stake than a revert, the session that
+built a phase does not grade it alone: the diff review (below) reads the doc and the diff with fresh
+eyes.
 
 ## Sessions
 
@@ -189,57 +192,87 @@ The project's Workflow section says which of these applies:
   doc's Handoff, when the project is on GitHub and `gh` is available; the checks run in CI (Phase 0
   sets that up). The owner merges on GitHub or says "merge it".
 
-Two reviews, both by a fresh subagent that reads the phase doc and nothing of the session:
+Two reviews, both by a fresh subagent that knows nothing of the session, both at the phase's review
+level ("Review levels", below):
 
-- **Plan review**, before code, at the level the plan calls for ("Plan review levels", below): "find
-  what this plan gets wrong or leaves out". The findings that change the plan are taken to the owner;
-  the rest are noted in the doc.
+- **Plan review**, before code: "find what this plan gets wrong or leaves out". The findings that
+  change the plan are taken to the owner; the rest are noted in the doc.
 - **Diff review**, once per phase, when its tasks are done: the diff against the phase doc's Tasks
-  and Acceptance criteria, hunting bugs, missing tests and scope creep. Not for a docs-only diff or
-  a session that stops mid-phase. Real findings are fixed in the session; the ones that are not go
-  to the Handoff with the reason. Claude Code's own `/code-review`, when it exists, is that review.
+  and Acceptance criteria, hunting bugs, checks that pass when they should not, missing tests and scope
+  creep. Not for a docs-only diff or a session that stops mid-phase. It runs in the background while
+  the session writes the docs, and no code changes until it reports. Real findings are fixed in the
+  session; the ones that are not go to the Handoff with the reason.
 
-## Plan review levels
+## Review levels
 
-A plan review is worth its wait only where a wrong plan would cost more than the wait. Once the plan
-is drafted, pick the level from what a mistake would cost, not from the topic: rewording an order mail
-is not the same as changing who receives it.
+A review is worth its wait only where a mistake would cost more than the wait. Each phase gets one
+level, picked once the plan is drafted, from what a mistake would cost rather than from the topic:
+rewording an order mail is not the same as changing who receives it. The level sets both reviews and
+the length of the plan.
 
-| Level | When | Wait |
-|---|---|---|
-| **None** (the default) | The plan is clear and follows a pattern the project already has. A mistake would show in the tests or at the owner's first look, and reverting a commit undoes it. | none |
-| **Light** | A mistake would cost more than a revert but stays contained (a local copy, behind a switch, nothing live), or one or two things in the plan rest on something unproven, or several parts depend on each other. | 3–5 minutes |
-| **Deep** | A mistake could reach real people or live data and be hard to undo, and the tests would not catch it: a production migration, deletion or cutover; how money moves; who gets mail; who can log in or see what, or another security boundary; commands the owner will type on a live server. | 15–20 minutes |
+| Level | When | Plan | Each review |
+|---|---|---|---|
+| **None** (the default) | The plan is clear and follows a pattern the project already has. A mistake would show in the tests or at the owner's first look, and reverting a commit undoes it. | a dozen lines | no subagent; the session reads its own diff once against the Tasks and criteria |
+| **Light** | A mistake would cost more than a revert but stays contained (a local copy, behind a switch, nothing live), or one or two things in the plan rest on something unproven, or several parts depend on each other. | up to 30 lines | 3–5 minutes |
+| **Deep** | A mistake could reach real people or live data and be hard to undo, and the tests would not catch it: a production migration, deletion or cutover; how money moves; who gets mail; who can log in or see what, or another security boundary; commands the owner will type on a live server. | as long as it needs | 15–20 minutes |
 
 Then act on it:
 
 - **Clear**: do it. None: the plan goes straight to the owner. Light or Deep: say which and why in one
-  line, and run it without asking.
+  line, and run the review without asking.
 - **Unsure between two levels**: ask once, through AskUserQuestion, before running anything. Say what
   is at stake in a sentence or two (what would go wrong, who would notice, how hard it is to undo),
   offer the two levels with their waits, and recommend one.
-- **The plan's first line** names the level and why ("Plan review: none, a new filter on a page that
-  has tests"), so the owner can ask for more when approving.
+- **The plan's first line** names the level and why ("Review level: none, a new filter on a page that
+  has tests"), so the owner can ask for more when approving. On approval the doc's top lines get the
+  same words as `**Review level**`, and the diff review and later sessions use that instead of deciding
+  again. A doc without the line (started earlier): pick the level when you first need it.
+- **Going up**: a build that turned out riskier than its plan (a new command for a live server, a much
+  bigger diff) raises the level for the diff review; say so in one line.
 - **Who overrules**: the owner's word beats everything ("skip the review", "do a deep one"). A spec or
   phase doc that rules a review out settles it; one that asks for a review without naming a level gets
   Light or Deep, by the table.
-- **Once per plan**: a phase resumed `in progress` does not get another.
+- **Once per plan**: a phase resumed `in progress` does not get another plan review.
 
 What the subagent is told:
 
-- **Both**: read-only; the plan, the phase doc and the one to three things you worry about most.
-  Findings only, most serious first, each with its evidence and the change it asks for; what checked
-  out gets one line at most.
-- **Light**: on a smaller, faster model than the session's, where the tool allows it. Those and the
-  files they hinge on, at most about 12 reads or commands in total, without tracing into dependencies;
-  at most five findings, under 300 words. What it cannot settle within that, it names rather than
-  chases. If that is a reason for a Deep, treat it as "Unsure" above. It is a quick second look and
-  will miss things, which is why anything live gets a Deep.
-- **Deep**: the session's model and no limit on reads; it checks the plan's claims against the code
-  and its dependencies.
+- **Both**: read-only; the plan or the diff, the phase doc and the one to three things you worry about
+  most. Findings only, most serious first, each with its evidence and the change it asks for; no style
+  nits; what checked out gets one line at most.
+- **Light**: on the next model down from the session's, not the smallest, where the tool allows it.
+  Those and the files they hinge on, at most about 12 reads or commands in total, without tracing
+  into dependencies; at most five findings, under 300 words. What it cannot settle within that, it
+  names rather than chases. If that is a reason for a Deep, treat it as "Unsure" above. It is a quick
+  second look and will miss things, which is why anything live gets a Deep.
+- **Deep**: the session's model and no limit on reads; it checks claims against the code and its
+  dependencies, and a diff review may run the tests. Claude Code's own `/code-review`, when it exists,
+  can be the Deep diff review.
 
 ## Writing for the owner
 
 The owner may not read code. Plans, handoffs and "Your turn" lists say what the user will see and
 do, in plain words, naming a file only when the owner has to open it. A question offers options
 with a recommendation. A problem is stated with what it blocks and what the choices are.
+
+## The owner's steps
+
+Anything only the owner can do: a command on a server, a Cloudflare rule, a setting in a dashboard, a
+look at a page.
+
+- **Everything else first.** Finish all you can before asking: the code, the checks, the docs, the
+  commands written and tried wherever they can be tried, and what comes after their steps, prepared so
+  work resumes the moment they report back. A step that comes up mid-build goes on the list, and the
+  build carries on with whatever does not depend on it.
+- **One bundle.** Hand over all their steps at once, in one numbered list, in the order to do them,
+  rather than one at a time across a session. Stop for them earlier only when your next work really
+  depends on the result, and say so. A step that has to wait (a quiet hour, an overnight run) gets its
+  own bundle, with the time on it.
+- **In full, in the message, every time.** The message alone is enough to act on, with each step saying:
+  - where: which server, user and folder, or which site and page;
+  - what: the exact command in its own code block, ready to paste, or the exact clicks and values; no
+    placeholder you could have filled in, and if one is unavoidable, say where to find the value;
+  - what they should see, and what to do if they do not.
+
+  End with what to send back ("paste what step 4 printed", "say done"). Never "now do step 3", "as
+  above" or "see the runbook": the doc keeps its copy, and the message works without it. Commands that
+  must stop on a failure get a step each, so a failed line cannot run on into the next.

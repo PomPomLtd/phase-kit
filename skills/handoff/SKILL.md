@@ -18,18 +18,19 @@ say each thing once (conventions, "Say it once").
 - The checks: run them unless they already went green on this exact tree; name each with its
   result. Red → fix if small; otherwise the handoff says exactly what is red and why, and the status
   stays `in progress`.
-- The diff review of the conventions, if the phase's tasks are done and it has not run yet; fix what
-  is real, note the rest.
+- The diff review at the phase's level (conventions, "Review levels"), if the phase's tasks are done
+  and it has not run yet, in the background while you write the docs; fix what is real, note the rest.
 
 ## 2. The docs
 
 The first two always. The rest only when there is something to add; do not open them otherwise.
 
 1. **The phase doc**: Status (`in progress` / `built` / `awaiting <Owner>`, with the date), the
-   criteria ticked with evidence, and the **Handoff** section, about 10–20 lines: what was built and
-   where it lives, what was decided (with `D-` ids), what was left out and where it went, what the
-   next session must know (gotchas, a command that must run first, a half-done thing). Not a
-   retelling of the diff. Newest session first when there are several.
+   criteria ticked with evidence, and the **Handoff** section, about 10–20 lines (review level None: a
+   few): what was built and where it lives, what was decided (with `D-` ids), what was left out and
+   where it went, what the next session must know (gotchas, a command that must run first, a half-done
+   thing). Not a retelling of the diff; commands for the owner go in "Your turn". Newest session first
+   when there are several.
 2. **PROGRESS.md**: the row; **Next** in one sentence (the next open task of this phase, or the next
    phase); a log entry on top, dated, up to three lines, pointing at the doc's Handoff; open items
    that came up. Over about 400 lines → move the oldest log entries to `PROGRESS-archive.md`
@@ -56,6 +57,7 @@ committed (no repository)".
 
 ## 4. Tell the owner
 
-The board (conventions, "The board"), then a few plain sentences: what works now, what is waiting
-on them (point at their TODO file and "Your turn"), what the next session starts with, and the one
-command that starts it (`/phase <initiative> <id>`). Then stop.
+The board (conventions, "The board"), then a few plain sentences: what works now, what the next
+session starts with, and the one command that starts it (`/phase <initiative> <id>`). Last, so it is
+the first thing they see, everything waiting on them as one bundle, with every step written out in
+this message (conventions, "The owner's steps"), not pointed at. Then stop.

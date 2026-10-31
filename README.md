@@ -54,7 +54,9 @@ not the old conversation.
 
 For a fix, a tweak or a small feature with an obvious shape. Claude makes the change with its test,
 runs the checks and commits. There is no spec, no phase doc, no plan to approve and no handoff, and
-it works in a project that never ran `/kit-setup`. If the job turns out bigger than it looked, or
+it works in a project that never ran `/kit-setup`. A bigger job that still fits one sitting works too:
+Claude shows a plan of about ten lines in the chat and waits for your go. If the job turns out bigger
+than it looked, or
 changes how money moves, who gets mail or who can log in, or deletes data, Claude stops and says so.
 Deploying still waits for your word. It only runs when you ask for it: an ordinary "fix this" gets
 Claude's normal behaviour.
@@ -107,8 +109,9 @@ Statuses of a phase: `specced` → `in progress` → `built` → `awaiting <you>
 - **Approving a plan is not approving a deploy.** Claude never deploys, sends mail, publishes,
   deletes data or spends money without you saying so in the session. "Merge it" is the go to
   put a finished phase live, where the project deploys from `main`.
-- **Do your turn.** Each phase ends with a "Your turn" list: open this, press that, you should
-  see this. Tell Claude what you saw. That is how a phase becomes `verified`.
+- **Do your turn.** Claude does everything it can first, then gives you all your steps at once, in the
+  message itself: where to run it, the exact command or clicks, what you should see. Tell Claude what
+  you saw. That is how a phase becomes `verified`.
 - **One phase per session.** Resist "and while you're at it". Say `/backlog the thing` instead, or
   `/quick the thing` when it is small.
 - **Start sessions with `/progress`.** It reads the docs and proposes the one command to run.
@@ -117,10 +120,11 @@ Statuses of a phase: `specced` → `in progress` → `built` → `awaiting <you>
 
 - **Plan mode**: Claude only reads and thinks, and shows you a plan; nothing is changed until you
   approve it. The kit makes Claude enter it before any build.
-- **Plan review**: a second Claude, knowing nothing of the session, looks for what the plan gets wrong
-  before any code is written. Most plans do not need one and come straight to you. Claude picks none,
-  light (3–5 minutes) or deep (15–20 minutes) by what a mistake would cost, says which and why, and
-  asks you, with what is at stake, when it is unsure. "Skip the review" or "do a deep one" overrules it.
+- **Reviews**: a second Claude, knowing nothing of the session, looks for what the plan gets wrong
+  before any code is written, and for bugs in the code once it is. Most phases do not need one, and
+  their plans come straight to you. Claude picks a level by what a mistake would cost: none, light (3–5
+  minutes each) or deep (15–20 minutes each). It says which and why, and asks you, with what is at
+  stake, when it is unsure. "Skip the review" or "do a deep one" overrules it.
 - **Checks**: the project's own tests and build steps. They must pass before every commit; Claude
   runs them, you do not have to.
 - **Commit**: a saved snapshot of the project with a message. **Branch**: a separate line of
